@@ -74,7 +74,12 @@ public class ResultMapFragment extends Fragment implements OnMapReadyCallback, G
         if (this.fragmentView == null) {
             this.fragmentView = inflater.inflate(R.layout.fragment_map, container, false);
         }
+
+        setRetainInstance(true);
+
         checkPermissions();
+
+        Log.e(TAG, "onCreateView: MAPS " + this.googleMap);
 
         connectToGoogleApi();
         setupGoogleMap();
@@ -104,6 +109,17 @@ public class ResultMapFragment extends Fragment implements OnMapReadyCallback, G
                 }
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: ON RESUME" );
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause: ON PAUSE" );
     }
 
     private void createAlert() {
@@ -159,6 +175,7 @@ public class ResultMapFragment extends Fragment implements OnMapReadyCallback, G
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         this.googleMap = googleMap;
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setMapToolbarEnabled(false);

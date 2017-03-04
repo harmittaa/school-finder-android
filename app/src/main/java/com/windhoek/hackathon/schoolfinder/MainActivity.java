@@ -22,12 +22,17 @@ import com.windhoek.hackathon.schoolfinder.Fragments.SearchFragment;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        fetchData();
         setContentView(R.layout.main_activity);
         fragmentSwitcher(Constants.fragmentTypes.FRAGMENT_SEARCH, null);
+    }
+
+    private void fetchData() {
+
     }
 
     public void fragmentSwitcher(Constants.fragmentTypes fragmentToSwitchTo, Bundle bundleToSend) {

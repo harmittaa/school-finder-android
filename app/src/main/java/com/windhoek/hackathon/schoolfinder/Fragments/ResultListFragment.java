@@ -29,14 +29,69 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     private static final String TAG = "ResultListFragment";
     private View fragmentView;
     private ListView resultListView;
+    private View rootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.fragmentView = inflater.inflate(R.layout.fragment_result_list, container, false);
+
+        if (fragmentView == null) {
+            // Inflate the layout for this fragment
+            fragmentView = inflater.inflate(R.layout.fragment_result_list, container, false);
+            // Find and setup subviews
+            this.resultListView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
+            setupListView();
+            setRetainInstance(true);
+
+        } else {
+
+            // Do not inflate the layout again.
+            // The returned View of onCreateView will be added into the fragment.
+            // However it is not allowed to be added twice even if the parent is same.
+            // So we must remove _rootView from the existing parent view group
+            // in onDestroyView() (it will be added back).
+        }
         this.resultListView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
         setupListView();
+        setRetainInstance(true);
+        Log.e(TAG, "onCreateView: ON CREATE CALLED");
         return this.fragmentView;
+
+
+ /*       this.fragmentView = inflater.inflate(R.layout.fragment_result_list, container, false);
+        this.resultListView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
+        setupListView();
+        setRetainInstance(true);
+        return this.fragmentView;*/
+    }
+
+    @Override
+    public void onResume() {
+        Log.e(TAG, "onResume: ON RESUME CALLED");
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e(TAG, "onStop: ON STOP");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e(TAG, "onDestroyView: ");
+        if (this.fragmentView.getParent() != null) {
+            ((ViewGroup)fragmentView.getParent()).removeView(fragmentView);
+        }
+        super.onDestroyView();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.e(TAG, "onDestroy: ");
+        super.onDestroy();
     }
 
     private void setupListView() {
@@ -66,7 +121,6 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
         }
 
 
-
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
@@ -88,7 +142,7 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e(TAG, "onClick: item clicked: " +  getItem(position).getName());
+                    Log.e(TAG, "onClick: item clicked: " + getItem(position).getName());
                     Bundle bundle = new Bundle();
                     bundle.putString("name", getItem(position).getName());
                     getMainActivity().fragmentSwitcher(FRAGMENT_SCHOOL_PROFILE, bundle);
