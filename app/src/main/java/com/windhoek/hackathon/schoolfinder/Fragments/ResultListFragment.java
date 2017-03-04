@@ -33,24 +33,19 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.fragmentView = inflater.inflate(R.layout.fragment_result_list, container, false);
         this.resultListView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
-
         setupListView();
         return this.fragmentView;
     }
 
     private void setupListView() {
-
         ArrayList<SchoolObject> arrayOfUsers = new ArrayList<SchoolObject>();
-        // Create the adapter to convert the array to views
         SchoolAdapter adapter = new SchoolAdapter(getMainActivity(), arrayOfUsers);
-        // Attach the adapter to a ListView
         ListView listView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
         listView.setAdapter(adapter);
 
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getMainActivity(), R.layout.fragment_result_list_item);
-        this.resultListView.setAdapter(arrayAdapter);
-        this.resultListView.setOnItemClickListener(this);
+        SchoolObject schoolObject = new SchoolObject("test_name", "test_address", 10.0, 20.0);
+        adapter.add(schoolObject);
+        Log.e(TAG, "setupListView: Added object");
     }
 
     private MainActivity getMainActivity() {
@@ -68,8 +63,10 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             super(context, 0, schools);
         }
 
+
+
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
             SchoolObject schoolObject = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
@@ -85,9 +82,15 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             schoolInfo1.setText(schoolObject.getAddress());
             schoolInfo2.setText("Example text here");
             // Return the completed view to render on screen
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e(TAG, "onClick: item clicked: " +  getItem(position).getName());
+                }
+            });
+
             return convertView;
         }
     }
-
-
 }
