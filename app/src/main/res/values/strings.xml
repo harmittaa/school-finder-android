@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SchoolFinder</string>
+
+    <string-array name="cities_array">
+        <item>Windhoek</item>
+        <item>Swakopmund</item>
+        <item>Omraruru</item>
+        <item>Okahandja</item>
+        <item>Wilhelmstal</item>
+    </string-array>
+</resources>
