@@ -13,14 +13,16 @@ import com.windhoek.hackathon.schoolfinder.R;
  * Created by Asus on 04/03/2017.
  */
 
-public class ResultListFragment extends Fragment {
-    private static final String TAG = "ResultListFragment";
+public class ResultMapFragment extends Fragment {
+    private static final String TAG = "ResultMapFragment";
     private View fragmentView;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.fragmentView = inflater.inflate(R.layout.fragment_result_list, container, false);
+        this.fragmentView = inflater.inflate(R.layout.fragment_map, container, false);
+
         return this.fragmentView;
     }
 }

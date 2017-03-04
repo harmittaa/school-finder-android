@@ -13,6 +13,8 @@ import com.windhoek.hackathon.schoolfinder.Fragments.SearchFragment;
 
 // TODO: 04/03/2017 Add cities programatically from the DB entries instead of having a list
 // of hardocded cities
+// TODO: 04/03/2017 Add back arrow to the result screen
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main_activity);
         fragmentSwitcher(Constants.fragmentTypes.FRAGMENT_SEARCH, null);
     }
