@@ -14,6 +14,7 @@ import com.windhoek.hackathon.schoolfinder.Fragments.SearchFragment;
 // TODO: 04/03/2017 Add cities programatically from the DB entries instead of having a list
 // of hardocded cities
 // TODO: 04/03/2017 Add back arrow to the result screen
+// TODO: 04/03/2017 Show UI tools  
 
 
 
