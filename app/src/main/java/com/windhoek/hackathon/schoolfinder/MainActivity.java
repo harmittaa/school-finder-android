@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.windhoek.hackathon.schoolfinder.Fragments.ResultHandlerFragment;
 import com.windhoek.hackathon.schoolfinder.Fragments.SearchFragment;
 
 
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         switch (fragmentToSwitchTo) {
             case FRAGMENT_SEARCH:
                 fragment = new SearchFragment();
+                break;
+            case FRAGMENT_RESULT_HANDLER:
+                fragment = new ResultHandlerFragment();
                 break;
         }
 
