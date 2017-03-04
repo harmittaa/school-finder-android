@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.windhoek.hackathon.schoolfinder.Fragments.ResultHandlerFragment;
+import com.windhoek.hackathon.schoolfinder.Fragments.SchoolProfileFragment;
 import com.windhoek.hackathon.schoolfinder.Fragments.SearchFragment;
 
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case FRAGMENT_RESULT_HANDLER:
                 fragment = new ResultHandlerFragment();
+                break;
+            case FRAGMENT_SCHOOL_PROFILE:
+                fragment = new SchoolProfileFragment();
                 break;
         }
 

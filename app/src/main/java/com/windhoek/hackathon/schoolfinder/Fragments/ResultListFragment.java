@@ -19,6 +19,8 @@ import com.windhoek.hackathon.schoolfinder.R;
 
 import java.util.ArrayList;
 
+import static com.windhoek.hackathon.schoolfinder.Constants.fragmentTypes.FRAGMENT_SCHOOL_PROFILE;
+
 /**
  * Created by Asus on 04/03/2017.
  */
@@ -87,6 +89,9 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
                 @Override
                 public void onClick(View view) {
                     Log.e(TAG, "onClick: item clicked: " +  getItem(position).getName());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name", getItem(position).getName());
+                    getMainActivity().fragmentSwitcher(FRAGMENT_SCHOOL_PROFILE, bundle);
                 }
             });
 

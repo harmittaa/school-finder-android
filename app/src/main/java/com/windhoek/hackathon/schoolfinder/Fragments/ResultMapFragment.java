@@ -71,7 +71,9 @@ public class ResultMapFragment extends Fragment implements OnMapReadyCallback, G
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.fragmentView = inflater.inflate(R.layout.fragment_map, container, false);
+        if (this.fragmentView == null) {
+            this.fragmentView = inflater.inflate(R.layout.fragment_map, container, false);
+        }
         checkPermissions();
 
         connectToGoogleApi();
