@@ -4,8 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.windhoek.hackathon.schoolfinder.Fragments.MapFragment;
 import com.windhoek.hackathon.schoolfinder.Fragments.ResultListFragment;
 import com.windhoek.hackathon.schoolfinder.Fragments.ResultMapFragment;
+import com.windhoek.hackathon.schoolfinder.Fragments.SearchFragment;
 
 /**
  * Created by Asus on 04/03/2017.
@@ -30,15 +32,17 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position){
             case 0:
-                ResultListFragment resultListFragment = new ResultListFragment();
-                return resultListFragment;
+                return new SearchFragment();
             case 1:
-                ResultMapFragment resultMapFragment = new ResultMapFragment();
-                return resultMapFragment;
+                return new ResultListFragment();
+            case 2:
+                return new MapFragment();
             default:
                 return null;
         }
     }
+
+
 
     /**
      * Return the number of views available.
