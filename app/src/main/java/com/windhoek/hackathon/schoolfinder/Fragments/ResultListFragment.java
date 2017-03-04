@@ -30,6 +30,7 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     private View fragmentView;
     private ListView resultListView;
     private View rootView;
+    private SchoolAdapter adapter;
 
     @Nullable
     @Override
@@ -43,13 +44,6 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             setupListView();
             setRetainInstance(true);
 
-        } else {
-
-            // Do not inflate the layout again.
-            // The returned View of onCreateView will be added into the fragment.
-            // However it is not allowed to be added twice even if the parent is same.
-            // So we must remove _rootView from the existing parent view group
-            // in onDestroyView() (it will be added back).
         }
         this.resultListView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
         setupListView();
@@ -82,7 +76,7 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
         super.onDestroyView();
         Log.e(TAG, "onDestroyView: ");
         if (this.fragmentView.getParent() != null) {
-            ((ViewGroup)fragmentView.getParent()).removeView(fragmentView);
+            ((ViewGroup) fragmentView.getParent()).removeView(fragmentView);
         }
         super.onDestroyView();
 
@@ -95,15 +89,21 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     }
 
     private void setupListView() {
-        ArrayList<SchoolObject> arrayOfUsers = new ArrayList<SchoolObject>();
-        SchoolAdapter adapter = new SchoolAdapter(getMainActivity(), arrayOfUsers);
+        adapter = new SchoolAdapter(getMainActivity(), new ArrayList<SchoolObject>());
+       // adapter = new SchoolAdapter(getMainActivity(), getMainActivity().getSchoolObjects());
         ListView listView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
         listView.setAdapter(adapter);
 
-        SchoolObject schoolObject = new SchoolObject("test_name", "test_address", 10.0, 20.0);
-        adapter.add(schoolObject);
+        //SchoolObject schoolObject = new SchoolObject("test_name", "test_address", 10.0, 20.0);
+        //adapter.add(schoolObject);
         Log.e(TAG, "setupListView: Added object");
     }
+
+    public void updateDataset() {
+        adapter.addAll(getMainActivity().getSchoolObjects());
+        //adapter.notifyDataSetChanged();
+    }
+
 
     private MainActivity getMainActivity() {
         return (MainActivity) getActivity();
@@ -120,6 +120,10 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             super(context, 0, schools);
         }
 
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+        }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {

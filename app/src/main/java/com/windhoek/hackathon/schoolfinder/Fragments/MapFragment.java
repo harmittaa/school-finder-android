@@ -23,7 +23,7 @@ import com.windhoek.hackathon.schoolfinder.R;
 public class MapFragment extends SupportMapFragment implements
         OnMapReadyCallback {
 
-    private final LatLng HAMBURG = new LatLng(53.558, 9.927);
+    private final LatLng WINDHOEK = new LatLng(-22.566, 17.074);
     private final LatLng KIEL = new LatLng(53.551, 9.993);
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -61,12 +61,10 @@ public class MapFragment extends SupportMapFragment implements
 
     private void setUpMap() {
 
-      //  mMap.setMyLocationEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.getUiSettings().setMapToolbarEnabled(false);
+        //  mMap.setMyLocationEnabled(true);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
 
-        Marker hamburg = mMap.addMarker(new MarkerOptions().position(HAMBURG)
-                .title("Hamburg"));
         Marker kiel = mMap.addMarker(new MarkerOptions()
                 .position(KIEL)
                 .title("Kiel")
@@ -74,8 +72,8 @@ public class MapFragment extends SupportMapFragment implements
                 .icon(BitmapDescriptorFactory
                         .fromResource(R.mipmap.ic_launcher)));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WINDHOEK, 15));
 
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
     }
 }
