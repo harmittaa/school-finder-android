@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
+        dataHandlerSingleton.createContextHolder(this);
         super.onCreate(savedInstanceState);
         fetchData();
         setContentView(R.layout.main_activity);
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void notifyObservers() {
+        EventBus.getDefault().post(new ContextEvent(this));
         EventBus.getDefault().post(new MessageEvent(this.schoolObjects));
         EventBus.getDefault().post(new DataFetchedEvent("update"));
         Log.e(TAG, "notifyObservers: POSTED EVENT BUS" );

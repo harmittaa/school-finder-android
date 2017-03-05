@@ -96,8 +96,8 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
 
     private void setupListView() {
         adapter = new SchoolAdapter(getMainActivity(), schoolObjects);
-       // adapter = new SchoolAdapter(getMainActivity(), new ArrayList<SchoolObject>());
-       // adapter = new SchoolAdapter(getMainActivity(), getMainActivity().getSchoolObjects());
+        // adapter = new SchoolAdapter(getMainActivity(), new ArrayList<SchoolObject>());
+        // adapter = new SchoolAdapter(getMainActivity(), getMainActivity().getSchoolObjects());
         ListView listView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
         listView.setAdapter(adapter);
         Log.e(TAG, "setupListView: Added object");
@@ -122,7 +122,7 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void receiveUpdate() {
         schoolObjects = dataHandlerSingleton.getSchoolObjects();
-        Log.e(TAG, "receiveUpdate: UPDATE RECEIVED SIZE " + schoolObjects.size() );
+        Log.e(TAG, "receiveUpdate: UPDATE RECEIVED SIZE " + schoolObjects.size());
         adapter.clear();
         adapter.addAll(schoolObjects);
         //adapter.notifyDataSetChanged();

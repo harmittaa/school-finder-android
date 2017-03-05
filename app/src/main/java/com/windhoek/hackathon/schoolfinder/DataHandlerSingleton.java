@@ -15,10 +15,20 @@ public class DataHandlerSingleton {
     private static DataHandlerSingleton dataHandlerSingleton = new DataHandlerSingleton();
     private ArrayList<SchoolObject> schoolObjects;
     private ArrayList<SchoolObject> originalSchoolObjects;
+    private ContextHolder contextHolder;
 
     private DataHandlerSingleton() {
         schoolObjects = new ArrayList<>();
         originalSchoolObjects = new ArrayList<>();
+    }
+
+    public void createContextHolder(MainActivity mainActivity) {
+        Log.e(TAG, "createContextHolder: CONTEXT HOLDER CREATED");
+        this.contextHolder = new ContextHolder(mainActivity);
+    }
+
+    public ContextHolder getContextHolder() {
+        return this.contextHolder;
     }
 
     public static DataHandlerSingleton getDataHandlerSingleton() {

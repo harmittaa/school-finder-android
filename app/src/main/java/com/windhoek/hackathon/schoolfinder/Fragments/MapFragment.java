@@ -11,6 +11,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.windhoek.hackathon.schoolfinder.AdminMarkerPopup;
+import com.windhoek.hackathon.schoolfinder.ContextEvent;
+import com.windhoek.hackathon.schoolfinder.ContextHolder;
 import com.windhoek.hackathon.schoolfinder.DataHandlerSingleton;
 import com.windhoek.hackathon.schoolfinder.MainActivity;
 import com.windhoek.hackathon.schoolfinder.MessageEvent;
@@ -30,16 +33,19 @@ import java.util.ArrayList;
  */
 
 public class MapFragment extends SupportMapFragment implements
-        OnMapReadyCallback, Observer {
+        OnMapReadyCallback, Observer, GoogleMap.OnMarkerClickListener {
     private DataHandlerSingleton dataHandlerSingleton;
     private final static String TAG = "MapFragment";
     private final LatLng WINDHOEK = new LatLng(-22.566, 17.074);
     private final LatLng KIEL = new LatLng(53.551, 9.993);
     private GoogleMap mMap;
+    private MainActivity mainActivity;
+    private ContextHolder contextHolder;
 
     public MapFragment() {
         Log.e(TAG, "MapFragment: MAP FRAGMENT CONSTRUCTOR");
         dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
+        this.contextHolder = dataHandlerSingleton.getContextHolder();
         //  addMarkersToMap();
     }
 
@@ -49,6 +55,14 @@ public class MapFragment extends SupportMapFragment implements
         Log.e(TAG, "onMessageEvent: onMEssageEvent RECEIVED");
         addMarkersToMap();
     }
+
+    @Subscribe
+    public void onContextEvent(ContextEvent event) {
+        //addMarkersToMap(event.getSchoolObjects());
+        Log.e(TAG, "onMessageEvent: onMEssageEvent RECEIVED");
+        mainActivity = event.mainActivity;
+    }
+
 
 
     @Override
@@ -95,6 +109,7 @@ public class MapFragment extends SupportMapFragment implements
         //  mMap.setMyLocationEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.setOnMarkerClickListener(this);
 
 /*
         Marker kiel = mMap.addMarker(new MarkerOptions()
@@ -134,9 +149,18 @@ public class MapFragment extends SupportMapFragment implements
                                 .title(so.getName())
                         //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
                 );
+
                 Log.e(TAG, "addMarkersToMap: Marker added to map");
             }
 
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.e(TAG, "onMarkerClick: MARKER CLICKED");
+        AdminMarkerPopup adminMarkerPopup = new AdminMarkerPopup(marker.getTitle(), this.contextHolder.getMainActivity());
+        adminMarkerPopup.createPopupTest();
+        return false;
     }
 }
