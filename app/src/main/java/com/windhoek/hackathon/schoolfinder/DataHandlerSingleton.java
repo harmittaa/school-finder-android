@@ -16,6 +16,7 @@ public class DataHandlerSingleton {
     private ArrayList<SchoolObject> schoolObjects;
     private ArrayList<SchoolObject> originalSchoolObjects;
     private ContextHolder contextHolder;
+    private boolean dataLoaded;
 
     private DataHandlerSingleton() {
         schoolObjects = new ArrayList<>();
@@ -52,5 +53,13 @@ public class DataHandlerSingleton {
 
     public void setOriginalSchoolObjects(ArrayList<SchoolObject> originalSchoolObjects) {
         this.originalSchoolObjects = originalSchoolObjects;
+    }
+
+    public boolean isDataLoaded() {
+        return dataLoaded;
+    }
+
+    public void setDataLoaded(boolean dataLoaded) {
+        this.dataLoaded = dataLoaded;
     }
 }
