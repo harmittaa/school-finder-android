@@ -20,6 +20,8 @@ import com.windhoek.hackathon.schoolfinder.Fragments.ResultListFragment;
 import com.windhoek.hackathon.schoolfinder.Model.SchoolObject;
 import com.windhoek.hackathon.schoolfinder.PagerAdapter.PagerAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void notifyObservers() {
+        EventBus.getDefault().post(new MessageEvent(this.schoolObjects));
+        Log.e(TAG, "notifyObservers: POSTED EVENT BUS" );
         dataHandlerSingleton.setSchoolObjects(this.schoolObjects);
         for (Observer o : observerList) {
             o.receiveUpdate();
