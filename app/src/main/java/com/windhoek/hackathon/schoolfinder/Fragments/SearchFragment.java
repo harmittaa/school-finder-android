@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -31,6 +32,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private Button searchButton;
     private Switch showPublic;
     private Switch showPrivate;
+    private EditText schoolName;
     private Switch hasOpenSpacesSwitch;
     private DataHandlerSingleton dataHandlerSingleton;
     private ArrayList<SchoolObject> schoolObjects;
@@ -47,7 +49,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             EventBus.getDefault().register(this);
         }
 
-
+        this.schoolName = (EditText) this.fragmentView.findViewById(R.id.school_name);
         this.citiesSpinner = (Spinner) this.fragmentView.findViewById(R.id.city_spinner);
         this.searchButton = (Button) this.fragmentView.findViewById(R.id.search_button);
         this.showPublic = (Switch) this.fragmentView.findViewById(R.id.public_only_switch);
@@ -105,8 +107,24 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         Log.e(TAG, "checkFilters: " + this.showPublic.isChecked());
         schoolObjects = dataHandlerSingleton.getOriginalSchoolObjects();
         newObjects = new ArrayList<>();
+        String userInput = schoolName.getText().toString();
+
+        ArrayList<SchoolObject> tempArrayList = new ArrayList<>();
+
 
         if (schoolObjects.size() > 0) {
+
+            if (!userInput.isEmpty()) {
+                for (SchoolObject so : schoolObjects) {
+                    Log.e(TAG, "checkFilters: " + so.getName());
+                    if (so.getName().toLowerCase().contains(userInput.toLowerCase())) {
+                        tempArrayList.add(so);
+                    }
+                }
+                schoolObjects = tempArrayList;
+            }
+
+
             if (!this.showPublic.isChecked()) {
                 for (SchoolObject so : schoolObjects) {
                     if (!so.isPublic()) {
