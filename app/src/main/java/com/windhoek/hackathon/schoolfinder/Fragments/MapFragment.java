@@ -40,7 +40,7 @@ public class MapFragment extends SupportMapFragment implements
     public MapFragment() {
         Log.e(TAG, "MapFragment: MAP FRAGMENT CONSTRUCTOR");
         dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
-      //  addMarkersToMap();
+        //  addMarkersToMap();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -54,7 +54,9 @@ public class MapFragment extends SupportMapFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         addMarkersToMap();
         if (dataHandlerSingleton == null) {
             dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
@@ -63,6 +65,12 @@ public class MapFragment extends SupportMapFragment implements
         // getMainActivity().registerObservers(this);
         Log.e(TAG, "MapFragment: MAP FRAGMENT ON RESUME");
         setUpMapIfNeeded();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // EventBus.getDefault().unregister(this);
     }
 
     private void setUpMapIfNeeded() {

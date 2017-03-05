@@ -121,10 +121,11 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void receiveUpdate() {
-        Log.e(TAG, "receiveUpdate: UPDATE RECEIVED" );
         schoolObjects = dataHandlerSingleton.getSchoolObjects();
+        Log.e(TAG, "receiveUpdate: UPDATE RECEIVED SIZE " + schoolObjects.size() );
+        adapter.clear();
         adapter.addAll(schoolObjects);
-
+        //adapter.notifyDataSetChanged();
     }
 
     public class SchoolAdapter extends ArrayAdapter<SchoolObject> {
@@ -152,7 +153,7 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             // Populate the data into the template view using the data object
             schoolName.setText(schoolObject.getName());
             schoolInfo1.setText(schoolObject.getAddress());
-            schoolInfo2.setText("Example text here");
+            schoolInfo2.setText(schoolObject.getPhoneNumber());
             // Return the completed view to render on screen
 
             convertView.setOnClickListener(new View.OnClickListener() {

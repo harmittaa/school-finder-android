@@ -10,8 +10,10 @@
     <LinearLayout
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_width="0px"
-        android:layout_height="0px"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp" />
 
 
     <EditText
@@ -29,7 +31,7 @@
         android:id="@+id/editText" />
 
     <Button
-        android:text="Search"
+        android:text="Filter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/search_button"
@@ -46,7 +48,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switch1"
+        android:id="@+id/public_only_switch"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
@@ -107,7 +109,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switch2"
+        android:id="@+id/private_only_switch"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         android:layout_marginBottom="8dp"

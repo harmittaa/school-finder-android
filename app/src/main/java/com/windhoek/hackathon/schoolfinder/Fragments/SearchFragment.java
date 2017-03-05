@@ -10,29 +10,55 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Switch;
 
-import com.windhoek.hackathon.schoolfinder.Constants;
+import com.windhoek.hackathon.schoolfinder.DataFetchedEvent;
+import com.windhoek.hackathon.schoolfinder.DataHandlerSingleton;
 import com.windhoek.hackathon.schoolfinder.MainActivity;
+import com.windhoek.hackathon.schoolfinder.MessageEvent;
+import com.windhoek.hackathon.schoolfinder.Model.SchoolObject;
 import com.windhoek.hackathon.schoolfinder.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 public class SearchFragment extends Fragment implements View.OnClickListener {
     private View fragmentView;
     private static final String TAG = "SearchFragment";
     private Spinner citiesSpinner;
     private Button searchButton;
+    private Switch showPublic;
+    private Switch showPrivate;
+    private DataHandlerSingleton dataHandlerSingleton;
+    private ArrayList<SchoolObject> schoolObjects;
+    private ArrayList<SchoolObject> originalObjects;
+    private ArrayList<SchoolObject> newObjects;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.fragmentView = inflater.inflate(R.layout.fragment_search, container, false);
         Log.e(TAG, "onCreateView: fragment switch completed");
+        dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
+        
 
         this.citiesSpinner = (Spinner) this.fragmentView.findViewById(R.id.city_spinner);
         this.searchButton = (Button) this.fragmentView.findViewById(R.id.search_button);
+        this.showPublic = (Switch) this.fragmentView.findViewById(R.id.public_only_switch);
+        this.showPrivate = (Switch) this.fragmentView.findViewById(R.id.private_only_switch);
+
+        this.showPublic.setChecked(true);
+        this.showPrivate.setChecked(true);
+
         this.searchButton.setOnClickListener(this);
-
         populateSpinner();
-
         return this.fragmentView;
     }
 
@@ -47,6 +73,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Handles the onClick events of the views
+     *
      * @param view The clicked view
      */
     @Override
@@ -54,9 +81,55 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.search_button:
                 Log.e(TAG, "onCreateView: search button clicked");
-                getMainActivity().fragmentSwitcher(Constants.fragmentTypes.FRAGMENT_RESULT_HANDLER, null);
+                checkFilters();
 
         }
+    }
+
+    @Subscribe
+    public void onMessageEvent(DataFetchedEvent event) {
+        Log.e(TAG, "onMessageEvent: onMEssageEvent RECEIVED");
+        String amount = "Filter " + Integer.toString(dataHandlerSingleton.getSchoolObjects().size());
+        searchButton.setText(amount);
+    }
+
+    @Subscribe
+    public void onMessageEvent(MessageEvent event) {
+        Log.e(TAG, "onMessageEvent: onMEssageEvent RECEIVED");
+        String amount = "Filter " + Integer.toString(dataHandlerSingleton.getOriginalSchoolObjects().size());
+        searchButton.setText(amount);
+    }
+
+
+
+    private void checkFilters() {
+        Log.e(TAG, "checkFilters: " + this.showPublic.isChecked());
+        schoolObjects = dataHandlerSingleton.getOriginalSchoolObjects();
+        newObjects = new ArrayList<SchoolObject>();
+
+        if (schoolObjects.size() > 0) {
+            if (!this.showPublic.isChecked()) {
+                for (SchoolObject so : schoolObjects) {
+                    if (!so.isPublic()) {
+                        newObjects.add(so);
+                    }
+                }
+            } else if (!this.showPrivate.isChecked()) {
+                for (SchoolObject so : schoolObjects) {
+                    if (so.isPublic()) {
+                        newObjects.add(so);
+                    }
+                }
+            } else if (this.showPrivate.isChecked() && this.showPublic.isChecked()) {
+                newObjects = schoolObjects;
+            }
+        }
+
+        dataHandlerSingleton.setSchoolObjects(newObjects);
+        String amount = "Filter " + Integer.toString(newObjects.size());
+        EventBus.getDefault().post(new DataFetchedEvent("update"));
+        EventBus.getDefault().post(new MessageEvent(this.newObjects));
+        getMainActivity().notifyObservers();
     }
 
     private MainActivity getMainActivity() {

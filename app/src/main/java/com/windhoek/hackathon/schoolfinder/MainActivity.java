@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         // STUFFS:
         this.tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        this.tabLayout.addTab(this.tabLayout.newTab().setText("Search"));
+        this.tabLayout.addTab(this.tabLayout.newTab().setText("Filter"));
         this.tabLayout.addTab(this.tabLayout.newTab().setText("List"));
         this.tabLayout.addTab(this.tabLayout.newTab().setText("Map"));
         this.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
         Log.e(TAG, "onCreateView: fragment switch completed");
     }
 
@@ -90,8 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void notifyObservers() {
         EventBus.getDefault().post(new MessageEvent(this.schoolObjects));
+        EventBus.getDefault().post(new DataFetchedEvent("update"));
         Log.e(TAG, "notifyObservers: POSTED EVENT BUS" );
-        dataHandlerSingleton.setSchoolObjects(this.schoolObjects);
+        //dataHandlerSingleton.setSchoolObjects(this.schoolObjects);
         for (Observer o : observerList) {
             o.receiveUpdate();
         }
@@ -109,25 +107,27 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "onDataChange: TEST TO FETCH DATA" + dataSnapshot.getValue() );
                 Log.e(TAG, "onDataChange: count " + dataSnapshot.getChildrenCount() + " has? " + dataSnapshot.hasChildren() );
                 for (DataSnapshot schoolsSnapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot plzWork : schoolsSnapshot.getChildren()) {
-                        String name = (String) plzWork.child("name").getValue();
-                        String message = (String) plzWork.child("city").getValue();
-                        String latitude = (String) plzWork.child("Latitude").getValue();
+                    for (DataSnapshot data : schoolsSnapshot.getChildren()) {
+                        String name = (String) data.child("name").getValue();
+                        String message = (String) data.child("city").getValue();
+                        String latitude = (String) data.child("Latitude").getValue();
                         Log.e(TAG, "onDataChange: LATitUDE " + latitude );
                         Log.e(TAG, "onDataChange: name " + name + " message " + message );
                         SchoolObject so = new SchoolObject(
-                                (String) plzWork.child("name").getValue(),
-                                (String) plzWork.child("Address").getValue(),
-                                (String) plzWork.child("Latitude").getValue(),
-                                (String) plzWork.child("Longitude").getValue(),
-                                (String) plzWork.child("Public").getValue(),
-                                (String) plzWork.child("City").getValue(),
-                                (String) plzWork.child("Phone").getValue(),
-                                (String) plzWork.child("Region").getValue()
+                                (String) data.child("name").getValue(),
+                                (String) data.child("Address").getValue(),
+                                (String) data.child("Latitude").getValue(),
+                                (String) data.child("Longitude").getValue(),
+                                (String) data.child("Public").getValue(),
+                                (String) data.child("City").getValue(),
+                                (String) data.child("Phone").getValue(),
+                                (String) data.child("Region").getValue()
                         );
                         schoolObjects.add(so);
                     }
                 }
+                dataHandlerSingleton.setSchoolObjects(schoolObjects);
+                dataHandlerSingleton.setOriginalSchoolObjects(schoolObjects);
                 notifyObservers();
             }
 
