@@ -96,16 +96,18 @@ public class MapFragment extends SupportMapFragment implements
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
+/*
         Marker kiel = mMap.addMarker(new MarkerOptions()
                 .position(KIEL)
                 .title("Kiel")
                 .snippet("Kiel is cool")
                 .icon(BitmapDescriptorFactory
                         .fromResource(R.mipmap.ic_launcher)));
+*/
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WINDHOEK, 15));
 
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
     }
 
     private MainActivity getMainActivity() {

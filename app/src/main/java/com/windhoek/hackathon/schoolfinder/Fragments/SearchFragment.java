@@ -47,7 +47,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             EventBus.getDefault().register(this);
         }
 
-        
 
         this.citiesSpinner = (Spinner) this.fragmentView.findViewById(R.id.city_spinner);
         this.searchButton = (Button) this.fragmentView.findViewById(R.id.search_button);
@@ -101,7 +100,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     private void checkFilters() {
         Log.e(TAG, "checkFilters: " + this.showPublic.isChecked());
         schoolObjects = dataHandlerSingleton.getOriginalSchoolObjects();
@@ -122,6 +120,20 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 }
             } else if (this.showPrivate.isChecked() && this.showPublic.isChecked()) {
                 newObjects = schoolObjects;
+            }
+
+            String cityName = citiesSpinner.getSelectedItem().toString();
+            ArrayList<SchoolObject> tempArray = new ArrayList<>();
+            if (!cityName.equals("None")) {
+                for (SchoolObject o : newObjects) {
+                    String schoolsCityName = o.getCity();
+                    Log.e(TAG, "checkFilters: school's city nae " + o.getCity());
+                    if (schoolsCityName.equals(cityName)) {
+                        tempArray.add(o);
+                        Log.e(TAG, "checkFilters: REMOVED SCHOOL " + o.getName() + " from city " + o.getCity());
+                    }
+                }
+                newObjects = tempArray;
             }
         }
 
