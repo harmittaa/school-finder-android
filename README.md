@@ -21,3 +21,11 @@ Future development for the application would include:
 - Gathering complete and accurate data of schools
 - More filtering options
 - UI fixes for devices with very small screens
+
+## Screenshots
+
+![Alt text](imgs/filters.png?raw=true "The filters screen") ![Alt text](imgs/list.png?raw=true "The list view")
+![Alt text](imgs/map.png?raw=true "The map view") ![Alt text](imgs/popup.png?raw=true "The popup view")
+
+
+
