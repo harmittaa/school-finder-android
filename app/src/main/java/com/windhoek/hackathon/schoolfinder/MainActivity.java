@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchData() {
+        Toast.makeText(this, "Fetching data",
+                Toast.LENGTH_LONG).show();
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -113,6 +117,17 @@ public class MainActivity extends AppCompatActivity {
                         String name = (String) data.child("name").getValue();
                         String message = (String) data.child("city").getValue();
                         String latitude = (String) data.child("Latitude").getValue();
+
+                        String lower = (String) data.child("1-7").getValue();
+                        String higher = (String) data.child("8-12").getValue();
+                        boolean hasLower =false;
+                        boolean hasHigher =false;
+                        if (lower.equalsIgnoreCase("yes")) {
+                            hasLower = true;
+                        } else if (higher.equalsIgnoreCase("yes")) {
+                            hasHigher = true;
+                        }
+
                         Log.e(TAG, "onDataChange: LATitUDE " + latitude );
                         Log.e(TAG, "onDataChange: name " + name + " message " + message );
                         SchoolObject so = new SchoolObject(
@@ -123,11 +138,17 @@ public class MainActivity extends AppCompatActivity {
                                 (String) data.child("Public").getValue(),
                                 (String) data.child("City").getValue(),
                                 (String) data.child("Phone").getValue(),
-                                (String) data.child("Region").getValue()
+                                (String) data.child("Region").getValue(),
+                                hasLower,
+                                hasHigher
                         );
                         schoolObjects.add(so);
                     }
                 }
+
+                Toast.makeText(getApplicationContext(), "Data fetched!",Toast.LENGTH_LONG).show();
+
+
                 dataHandlerSingleton.setSchoolObjects(schoolObjects);
                 dataHandlerSingleton.setOriginalSchoolObjects(schoolObjects);
                 notifyObservers();

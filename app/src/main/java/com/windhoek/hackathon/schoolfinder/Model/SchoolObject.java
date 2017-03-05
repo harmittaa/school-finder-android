@@ -19,12 +19,16 @@ public class SchoolObject {
     private String phoneNumber;
     private String region;
     private LatLng latLng;
+    private boolean openPositions;
+    private boolean lowerGrades;
+    private boolean higherGrades;
 
     public SchoolObject() {
 
     }
 
-    public SchoolObject(String name, String address, String latitude, String longitude, String isPublic, String city, String phoneNumber, String region) {
+    public SchoolObject(String name, String address, String latitude, String longitude, String isPublic, String city, String phoneNumber,
+                        String region, boolean lowerGrades, boolean higherGrades) {
         this.name = name;
         this.address = address;
 
@@ -42,6 +46,10 @@ public class SchoolObject {
         this.city = city;
         this.phoneNumber = phoneNumber;
         this.region = region;
+        //this.openPositions = openPositions;
+        this.lowerGrades = lowerGrades;
+        this.higherGrades = higherGrades;
+
 
     }
 
@@ -80,6 +88,30 @@ public class SchoolObject {
 
     public LatLng getLatLng() {
         return latLng;
+    }
+
+    public boolean isOpenPositions() {
+        return openPositions;
+    }
+
+    public void setOpenPositions(boolean openPositions) {
+        this.openPositions = openPositions;
+    }
+
+    public boolean isLowerGrades() {
+        return lowerGrades;
+    }
+
+    public void setLowerGrades(boolean lowerGrades) {
+        this.lowerGrades = lowerGrades;
+    }
+
+    public boolean isHigherGrades() {
+        return higherGrades;
+    }
+
+    public void setHigherGrades(boolean higherGrades) {
+        this.higherGrades = higherGrades;
     }
 }
 

@@ -52,6 +52,8 @@ public class SchoolProfilePopup implements View.OnClickListener {
         findSchoolObject();
 
         this.schoolName.setText(schoolObject.getName());
+        this.schoolName.setTypeface(null, Typeface.BOLD);
+
         this.schoolAddress.setText(schoolObject.getAddress());
         this.schoolPhone.setText(schoolObject.getPhoneNumber());
         this.schoolPhone.setTextColor(Color.parseColor("#0000FF"));
@@ -63,7 +65,6 @@ public class SchoolProfilePopup implements View.OnClickListener {
         this.popupButtonPositive.setOnClickListener(this);
         this.submissionImage.setOnClickListener(this);
         this.submissionImage.setOnClickListener(this);
-
         this.dialog.show();
     }
 
@@ -76,7 +77,6 @@ public class SchoolProfilePopup implements View.OnClickListener {
             }
         }
     }
-
 
     @Override
     public void onClick(View v) {
