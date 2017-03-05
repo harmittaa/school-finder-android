@@ -7,6 +7,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -139,12 +140,24 @@ public class MapFragment extends SupportMapFragment implements
         if (dataHandlerSingleton.getSchoolObjects().size() > 0 && mMap != null) {
 
             //     for (SchoolObject so : schoolObjects) {
+
             for (SchoolObject so : dataHandlerSingleton.getSchoolObjects()) {
-                mMap.addMarker(new MarkerOptions()
-                                .position(so.getLatLng())
-                                .title(so.getName())
-                        //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-                );
+                if (so.hasOpenPositions()) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(so.getLatLng())
+                            .title(so.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                    );
+                } else {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(so.getLatLng())
+                            .title(so.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    );
+
+                }
 
                 Log.e(TAG, "addMarkersToMap: Marker added to map");
             }
