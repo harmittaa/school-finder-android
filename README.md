@@ -20,3 +20,4 @@ Future development for the application would include:
 - UI polishing
 - Gathering complete and accurate data of schools
 - More filtering options
+- UI fixes for devices with very small screens
