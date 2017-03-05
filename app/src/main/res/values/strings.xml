@@ -2,9 +2,10 @@
     <string name="app_name">SchoolFinder</string>
 
     <string-array name="cities_array">
+        <item>None</item>
         <item>Windhoek</item>
         <item>Swakopmund</item>
-        <item>Omraruru</item>
+        <item>Gobabis</item>
         <item>Okahandja</item>
         <item>Wilhelmstal</item>
     </string-array>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "38867372316",
+    "firebase_url": "https://schoolfinder-9666c.firebaseio.com",
+    "project_id": "schoolfinder-9666c",
+    "storage_bucket": "schoolfinder-9666c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38867372316:android:bcc4466363ba0474",
+        "android_client_info": {
+          "package_name": "com.windhoek.hackathon.schoolfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38867372316-6u7hqdh2cfd34tm7ga3ugim22d36383g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhaEBJaLSASvpizopPg3OzjUEvaOEnjC4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
