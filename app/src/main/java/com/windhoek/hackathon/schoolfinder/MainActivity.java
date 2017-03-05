@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().post(new ContextEvent(this));
         EventBus.getDefault().post(new MessageEvent(this.schoolObjects));
         EventBus.getDefault().post(new DataFetchedEvent("update"));
-        Log.e(TAG, "notifyObservers: POSTED EVENT BUS" );
+        Log.e(TAG, "notifyObservers: POSTED EVENT BUS");
         //dataHandlerSingleton.setSchoolObjects(this.schoolObjects);
         for (Observer o : observerList) {
             o.receiveUpdate();
@@ -110,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 // Get Post object and use the values to update the UI
                 schoolObjects = new ArrayList<>();
                 SchoolObject schoolObject = dataSnapshot.getValue(SchoolObject.class);
-                Log.e(TAG, "onDataChange: TEST TO FETCH DATA" + dataSnapshot.getValue() );
-                Log.e(TAG, "onDataChange: count " + dataSnapshot.getChildrenCount() + " has? " + dataSnapshot.hasChildren() );
+                Log.e(TAG, "onDataChange: TEST TO FETCH DATA" + dataSnapshot.getValue());
+                Log.e(TAG, "onDataChange: count " + dataSnapshot.getChildrenCount() + " has? " + dataSnapshot.hasChildren());
                 for (DataSnapshot schoolsSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot data : schoolsSnapshot.getChildren()) {
                         String name = (String) data.child("name").getValue();
@@ -134,24 +135,10 @@ public class MainActivity extends AppCompatActivity {
                         classes.add((String) data.child("10").getValue());
                         classes.add((String) data.child("11").getValue());
                         classes.add((String) data.child("12").getValue());
-/*
-                        String first = (String) data.child("1").getValue();
-                        String second = (String) data.child("2").getValue();
-                        String third = (String) data.child("3").getValue();
-                        String fourth = (String) data.child("4").getValue();
-                        String fifth = (String) data.child("5").getValue();
-                        String sixth = (String) data.child("6").getValue();
-                        String seventh = (String) data.child("7").getValue();
-                        String eight = (String) data.child("8").getValue();
-                        String ninght = (String) data.child("9").getValue();
-                        String tenth = (String) data.child("10").getValue();
-                        String eleven = (String) data.child("11").getValue();
-                        String twelve = (String) data.child("12").getValue();
-*/
 
                         boolean hasSpace = false;
-                        boolean hasLower =false;
-                        boolean hasHigher =false;
+                        boolean hasLower = false;
+                        boolean hasHigher = false;
                         if (lower.equalsIgnoreCase("yes")) {
                             hasLower = true;
                         } else if (higher.equalsIgnoreCase("yes")) {
@@ -165,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                        Log.e(TAG, "onDataChange: LATitUDE " + latitude );
-                        Log.e(TAG, "onDataChange: name " + name + " message " + message );
+                        Log.e(TAG, "onDataChange: LATitUDE " + latitude);
+                        Log.e(TAG, "onDataChange: name " + name + " message " + message);
                         SchoolObject so = new SchoolObject(
                                 (String) data.child("name").getValue(),
                                 (String) data.child("Address").getValue(),
@@ -184,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                Toast.makeText(getApplicationContext(), "Data fetched!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Data fetched!", Toast.LENGTH_LONG).show();
 
 
                 dataHandlerSingleton.setSchoolObjects(schoolObjects);
@@ -208,32 +195,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void fragmentSwitcher(Constants.fragmentTypes fragmentToSwitchTo, Bundle bundleToSend) {
         // initialize the fragment manager and transaction
-/*
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = null;
-        String tag = "default";
-
-        // switch case handling the changing of the fragment
-        switch (fragmentToSwitchTo) {
-            case FRAGMENT_SEARCH:
-                fragment = new SearchFragment();
-                break;
-            case FRAGMENT_RESULT_HANDLER:
-                fragment = new ResultHandlerFragment();
-                break;
-            case FRAGMENT_SCHOOL_PROFILE:
-                fragment = new SchoolProfileFragment();
-                break;
-        }
-
-        // add the extras to the fragment if required
-        if (bundleToSend != null && fragment != null)  {
-            fragment.setArguments(bundleToSend);
-        }
-        Log.e(TAG, "fragmentSwitcher: SWITCHING FRAGMENTS");
-        fragmentTransaction.replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-*/
     }
 }
 

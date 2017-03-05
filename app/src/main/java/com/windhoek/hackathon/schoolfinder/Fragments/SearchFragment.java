@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -38,6 +39,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private ArrayList<SchoolObject> schoolObjects;
     private ArrayList<SchoolObject> originalObjects;
     private ArrayList<SchoolObject> newObjects;
+    private ProgressBar progressBar;
+    private boolean dataLoaded = false;
+
 
     @Nullable
     @Override
@@ -49,6 +53,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             EventBus.getDefault().register(this);
         }
 
+        this.progressBar = (ProgressBar) this.fragmentView.findViewById(R.id.progress_bar);
+        if (dataHandlerSingleton.isDataLoaded()) {
+            this.progressBar.setVisibility(View.GONE);
+        }
         this.schoolName = (EditText) this.fragmentView.findViewById(R.id.school_name);
         this.citiesSpinner = (Spinner) this.fragmentView.findViewById(R.id.city_spinner);
         this.searchButton = (Button) this.fragmentView.findViewById(R.id.search_button);
@@ -97,6 +105,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
+        if (dataHandlerSingleton.isDataLoaded()) {
+            this.progressBar.setVisibility(View.GONE);
+        } else {
+            this.progressBar.setVisibility(View.GONE);
+        }
+
+        dataHandlerSingleton.setDataLoaded(true);
+
         Log.e(TAG, "onMessageEvent: onMEssageEvent RECEIVED");
         String amount = "Filter " + Integer.toString(dataHandlerSingleton.getOriginalSchoolObjects().size());
         searchButton.setText(amount);
