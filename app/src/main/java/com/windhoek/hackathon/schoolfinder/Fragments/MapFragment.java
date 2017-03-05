@@ -7,11 +7,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.windhoek.hackathon.schoolfinder.AdminMarkerPopup;
+import com.windhoek.hackathon.schoolfinder.SchoolProfilePopup;
 import com.windhoek.hackathon.schoolfinder.ContextEvent;
 import com.windhoek.hackathon.schoolfinder.ContextHolder;
 import com.windhoek.hackathon.schoolfinder.DataHandlerSingleton;
@@ -19,13 +18,10 @@ import com.windhoek.hackathon.schoolfinder.MainActivity;
 import com.windhoek.hackathon.schoolfinder.MessageEvent;
 import com.windhoek.hackathon.schoolfinder.Model.SchoolObject;
 import com.windhoek.hackathon.schoolfinder.Observer;
-import com.windhoek.hackathon.schoolfinder.R;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
 
 
 /**
@@ -159,8 +155,8 @@ public class MapFragment extends SupportMapFragment implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.e(TAG, "onMarkerClick: MARKER CLICKED");
-        AdminMarkerPopup adminMarkerPopup = new AdminMarkerPopup(marker.getTitle(), this.contextHolder.getMainActivity());
-        adminMarkerPopup.createPopupTest();
+        SchoolProfilePopup schoolProfilePopup = new SchoolProfilePopup(marker.getTitle(), this.contextHolder.getMainActivity());
+        schoolProfilePopup.createPopupTest();
         return false;
     }
 }

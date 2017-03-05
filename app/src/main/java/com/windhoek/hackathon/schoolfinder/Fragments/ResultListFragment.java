@@ -1,6 +1,8 @@
 package com.windhoek.hackathon.schoolfinder.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -162,7 +164,8 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
                     Log.e(TAG, "onClick: item clicked: " + getItem(position).getName());
                     Bundle bundle = new Bundle();
                     bundle.putString("name", getItem(position).getName());
-                    getMainActivity().fragmentSwitcher(FRAGMENT_SCHOOL_PROFILE, bundle);
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getItem(position).getPhoneNumber()));
+                    getMainActivity().startActivity(intent);
                 }
             });
 
