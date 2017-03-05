@@ -28,7 +28,7 @@ public class SchoolObject {
     }
 
     public SchoolObject(String name, String address, String latitude, String longitude, String isPublic, String city, String phoneNumber,
-                        String region, boolean lowerGrades, boolean higherGrades) {
+                        String region, boolean lowerGrades, boolean higherGrades, boolean hasSpace) {
         this.name = name;
         this.address = address;
 
@@ -46,7 +46,7 @@ public class SchoolObject {
         this.city = city;
         this.phoneNumber = phoneNumber;
         this.region = region;
-        //this.openPositions = openPositions;
+        this.openPositions = hasSpace;
         this.lowerGrades = lowerGrades;
         this.higherGrades = higherGrades;
 
@@ -90,7 +90,7 @@ public class SchoolObject {
         return latLng;
     }
 
-    public boolean isOpenPositions() {
+    public boolean hasOpenPositions() {
         return openPositions;
     }
 

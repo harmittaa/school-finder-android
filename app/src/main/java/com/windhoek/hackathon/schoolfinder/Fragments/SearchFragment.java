@@ -21,7 +21,6 @@ import com.windhoek.hackathon.schoolfinder.R;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -32,6 +31,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private Button searchButton;
     private Switch showPublic;
     private Switch showPrivate;
+    private Switch hasOpenSpacesSwitch;
     private DataHandlerSingleton dataHandlerSingleton;
     private ArrayList<SchoolObject> schoolObjects;
     private ArrayList<SchoolObject> originalObjects;
@@ -52,6 +52,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         this.searchButton = (Button) this.fragmentView.findViewById(R.id.search_button);
         this.showPublic = (Switch) this.fragmentView.findViewById(R.id.public_only_switch);
         this.showPrivate = (Switch) this.fragmentView.findViewById(R.id.private_only_switch);
+        this.hasOpenSpacesSwitch = (Switch) this.fragmentView.findViewById(R.id.has_open_spaces_switch);
 
         this.showPublic.setChecked(true);
         this.showPrivate.setChecked(true);
@@ -103,7 +104,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private void checkFilters() {
         Log.e(TAG, "checkFilters: " + this.showPublic.isChecked());
         schoolObjects = dataHandlerSingleton.getOriginalSchoolObjects();
-        newObjects = new ArrayList<SchoolObject>();
+        newObjects = new ArrayList<>();
 
         if (schoolObjects.size() > 0) {
             if (!this.showPublic.isChecked()) {
@@ -121,6 +122,16 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             } else if (this.showPrivate.isChecked() && this.showPublic.isChecked()) {
                 newObjects = schoolObjects;
             }
+            ArrayList<SchoolObject> veryTempArray = new ArrayList<>();
+            if (hasOpenSpacesSwitch.isChecked()) {
+                for (SchoolObject so : newObjects) {
+                    if (so.hasOpenPositions()) {
+                        veryTempArray.add(so);
+                    }
+                }
+                newObjects = veryTempArray;
+            }
+
 
             String cityName = citiesSpinner.getSelectedItem().toString();
             ArrayList<SchoolObject> tempArray = new ArrayList<>();

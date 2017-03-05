@@ -2,6 +2,8 @@ package com.windhoek.hackathon.schoolfinder.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,6 +37,7 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     private View fragmentView;
     private ListView resultListView;
     private View rootView;
+    private ImageView isAvailableImageView;
     private SchoolAdapter adapter;
     private DataHandlerSingleton dataHandlerSingleton;
     private ArrayList<SchoolObject> schoolObjects;
@@ -149,6 +153,7 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_result_list_item, parent, false);
             }
             // Lookup view for data population
+            isAvailableImageView = (ImageView) convertView.findViewById(R.id.available_image_view);
             TextView schoolName = (TextView) convertView.findViewById(R.id.list_item_school_name);
             TextView schoolInfo1 = (TextView) convertView.findViewById(R.id.list_item_school_info1);
             TextView schoolInfo2 = (TextView) convertView.findViewById(R.id.list_item_school_info2);
@@ -157,6 +162,12 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             schoolInfo1.setText(schoolObject.getAddress());
             schoolInfo2.setText(schoolObject.getPhoneNumber());
             // Return the completed view to render on screen
+
+            if (!schoolObject.hasOpenPositions()) {
+                isAvailableImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_block_black_24dp));
+            } else {
+                isAvailableImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_black_24dp));
+            }
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

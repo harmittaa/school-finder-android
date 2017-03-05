@@ -120,6 +120,36 @@ public class MainActivity extends AppCompatActivity {
 
                         String lower = (String) data.child("1-7").getValue();
                         String higher = (String) data.child("8-12").getValue();
+
+                        ArrayList<String> classes = new ArrayList<>();
+                        classes.add((String) data.child("1").getValue());
+                        classes.add((String) data.child("2").getValue());
+                        classes.add((String) data.child("3").getValue());
+                        classes.add((String) data.child("4").getValue());
+                        classes.add((String) data.child("5").getValue());
+                        classes.add((String) data.child("6").getValue());
+                        classes.add((String) data.child("7").getValue());
+                        classes.add((String) data.child("8").getValue());
+                        classes.add((String) data.child("9").getValue());
+                        classes.add((String) data.child("10").getValue());
+                        classes.add((String) data.child("11").getValue());
+                        classes.add((String) data.child("12").getValue());
+/*
+                        String first = (String) data.child("1").getValue();
+                        String second = (String) data.child("2").getValue();
+                        String third = (String) data.child("3").getValue();
+                        String fourth = (String) data.child("4").getValue();
+                        String fifth = (String) data.child("5").getValue();
+                        String sixth = (String) data.child("6").getValue();
+                        String seventh = (String) data.child("7").getValue();
+                        String eight = (String) data.child("8").getValue();
+                        String ninght = (String) data.child("9").getValue();
+                        String tenth = (String) data.child("10").getValue();
+                        String eleven = (String) data.child("11").getValue();
+                        String twelve = (String) data.child("12").getValue();
+*/
+
+                        boolean hasSpace = false;
                         boolean hasLower =false;
                         boolean hasHigher =false;
                         if (lower.equalsIgnoreCase("yes")) {
@@ -127,6 +157,13 @@ public class MainActivity extends AppCompatActivity {
                         } else if (higher.equalsIgnoreCase("yes")) {
                             hasHigher = true;
                         }
+
+                        for (String s : classes) {
+                            if (s.equals("yes")) {
+                                hasSpace = true;
+                            }
+                        }
+
 
                         Log.e(TAG, "onDataChange: LATitUDE " + latitude );
                         Log.e(TAG, "onDataChange: name " + name + " message " + message );
@@ -140,7 +177,8 @@ public class MainActivity extends AppCompatActivity {
                                 (String) data.child("Phone").getValue(),
                                 (String) data.child("Region").getValue(),
                                 hasLower,
-                                hasHigher
+                                hasHigher,
+                                hasSpace
                         );
                         schoolObjects.add(so);
                     }
