@@ -1,18 +1,22 @@
 # school-finder-android
 The school finder app created for Big & Open Data Hackathon 2017 in Windhoek, NA.
 
-The given challenge was that there is no up to date listing of public nor private schools in Namibia, the app was created to make all 
-the public and private schools accessible from one place.
+The school finder app was designed because there is currently not a centralized location where the Namibians could browse both public
+and private schools all over the country. Currently the school finder enables users to browse and filter schools listed on the school finder database. The schools can be viewed on a map (currently only on Google Maps) or browsed through on a list.
 
-The app pulls it's data from Firebase database, which has the following information about schools:
-- Name
-- Address
-- Latitude
-- Longitude
-- Phone number
-- Offered grades
+The filters include:
+- Keyword search
+- Location (city/town)
+- Public and / or private schools
+- Available positions for learners
 
-A web interface was also developed to allow schools to update their data into the database, future development perhaps allowing the schools
- to add real time information whether there are any open positions for learners.
- 
- 
+The data for the schools is pulled from a Firebase database, which was manually populated, thus the current data might not be completely accurate. The data for available positions was randomized.
+
+A web control panel is under development, but it is currently not finalized. In the control panel the schools would be able to edit their information, for example available positions for learners and curriculum.
+
+Future development for the application would include:
+- Token based access for the database
+- Web control panel
+- UI polishing
+- Gathering complete and accurate data of schools
+- More filtering options
