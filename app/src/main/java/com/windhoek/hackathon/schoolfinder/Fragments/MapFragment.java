@@ -13,6 +13,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.windhoek.hackathon.schoolfinder.DataHandlerSingleton;
+import com.windhoek.hackathon.schoolfinder.MainActivity;
+import com.windhoek.hackathon.schoolfinder.Model.SchoolObject;
+import com.windhoek.hackathon.schoolfinder.Observer;
 import com.windhoek.hackathon.schoolfinder.R;
 
 
@@ -21,23 +25,25 @@ import com.windhoek.hackathon.schoolfinder.R;
  */
 
 public class MapFragment extends SupportMapFragment implements
-        OnMapReadyCallback {
-
+        OnMapReadyCallback, Observer {
+    private DataHandlerSingleton dataHandlerSingleton;
+    private final static String TAG = "MapFragment";
     private final LatLng WINDHOEK = new LatLng(-22.566, 17.074);
     private final LatLng KIEL = new LatLng(53.551, 9.993);
-
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
     private GoogleMap mMap;
-    private Marker marker;
 
     public MapFragment() {
+        getMainActivity().registerObservers(this);
+        dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        if (dataHandlerSingleton == null) {
+            dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
+        }
+        getMainActivity().registerObservers(this);
         Log.d("MyMap", "onResume");
         setUpMapIfNeeded();
     }
@@ -75,5 +81,24 @@ public class MapFragment extends SupportMapFragment implements
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WINDHOEK, 15));
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+    }
+
+    private MainActivity getMainActivity() {
+        return (MainActivity) getContext();
+    }
+
+    @Override
+    public void receiveUpdate() {
+        addMarkersToMap();
+
+    }
+
+    private void addMarkersToMap() {
+        for (SchoolObject so : dataHandlerSingleton.getSchoolObjects()) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(so.getLatLng())
+                    .title(so.getName())
+            );
+        }
     }
 }

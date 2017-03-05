@@ -34,16 +34,20 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private ArrayList<SchoolObject> schoolObjects;
+    private ArrayList<Observer> observerList;
+    private DataHandlerSingleton dataHandlerSingleton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
         super.onCreate(savedInstanceState);
         fetchData();
         setContentView(R.layout.main_activity);
         fragmentSwitcher(Constants.fragmentTypes.FRAGMENT_SEARCH, null);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        observerList = new ArrayList<>();
 
         // STUFFS:
         this.tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -76,9 +80,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         Log.e(TAG, "onCreateView: fragment switch completed");
+    }
 
+    public void registerObservers(Observer observer) {
+        observerList.add(observer);
+    }
 
-
+    public void notifyObservers() {
+        dataHandlerSingleton.setSchoolObjects(this.schoolObjects);
+        for (Observer o : observerList) {
+            o.receiveUpdate();
+        }
     }
 
     private void fetchData() {
@@ -112,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         schoolObjects.add(so);
                     }
                 }
-                ResultListFragment resultListFragment = new ResultListFragment();
-                resultListFragment.updateDataset();
+                notifyObservers();
             }
 
             @Override

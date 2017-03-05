@@ -1,10 +1,15 @@
 package com.windhoek.hackathon.schoolfinder.Model;
 
+import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Asus on 04/03/2017.
  */
 
 public class SchoolObject {
+    private static final String TAG = "SchoolObject";
     private String name;
     private String address;
     private double latitude;
@@ -13,6 +18,7 @@ public class SchoolObject {
     private String city;
     private String phoneNumber;
     private String region;
+    private LatLng latLng;
 
     public SchoolObject() {
 
@@ -27,6 +33,12 @@ public class SchoolObject {
         if (isPublic.equals("Yes")) {
             this.isPublic = true;
         }
+        try {
+            this.latLng = new LatLng(this.latitude, this.longitude);
+        } catch (Exception e) {
+            Log.e(TAG, "SchoolObject: ", e);
+        }
+
         this.city = city;
         this.phoneNumber = phoneNumber;
         this.region = region;
@@ -64,6 +76,10 @@ public class SchoolObject {
 
     public String getRegion() {
         return region;
+    }
+
+    public LatLng getLatLng() {
+        return latLng;
     }
 }
 

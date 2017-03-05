@@ -13,8 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.windhoek.hackathon.schoolfinder.DataHandlerSingleton;
 import com.windhoek.hackathon.schoolfinder.MainActivity;
 import com.windhoek.hackathon.schoolfinder.Model.SchoolObject;
+import com.windhoek.hackathon.schoolfinder.Observer;
 import com.windhoek.hackathon.schoolfinder.R;
 
 import java.util.ArrayList;
@@ -25,12 +27,14 @@ import static com.windhoek.hackathon.schoolfinder.Constants.fragmentTypes.FRAGME
  * Created by Asus on 04/03/2017.
  */
 
-public class ResultListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ResultListFragment extends Fragment implements AdapterView.OnItemClickListener, Observer {
     private static final String TAG = "ResultListFragment";
     private View fragmentView;
     private ListView resultListView;
     private View rootView;
     private SchoolAdapter adapter;
+    private DataHandlerSingleton dataHandlerSingleton;
+    private ArrayList<SchoolObject> schoolObjects;
 
     @Nullable
     @Override
@@ -40,11 +44,13 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
             // Inflate the layout for this fragment
             fragmentView = inflater.inflate(R.layout.fragment_result_list, container, false);
             // Find and setup subviews
+            dataHandlerSingleton = DataHandlerSingleton.getDataHandlerSingleton();
+            schoolObjects = new ArrayList<>();
             this.resultListView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
             setupListView();
             setRetainInstance(true);
-
         }
+        getMainActivity().registerObservers(this);
         this.resultListView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
         setupListView();
         setRetainInstance(true);
@@ -89,18 +95,16 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     }
 
     private void setupListView() {
-        adapter = new SchoolAdapter(getMainActivity(), new ArrayList<SchoolObject>());
+        adapter = new SchoolAdapter(getMainActivity(), schoolObjects);
+       // adapter = new SchoolAdapter(getMainActivity(), new ArrayList<SchoolObject>());
        // adapter = new SchoolAdapter(getMainActivity(), getMainActivity().getSchoolObjects());
         ListView listView = (ListView) this.fragmentView.findViewById(R.id.result_list_view);
         listView.setAdapter(adapter);
-
-        //SchoolObject schoolObject = new SchoolObject("test_name", "test_address", 10.0, 20.0);
-        //adapter.add(schoolObject);
         Log.e(TAG, "setupListView: Added object");
     }
 
     public void updateDataset() {
-        adapter.addAll(getMainActivity().getSchoolObjects());
+//        adapter.addAll(getMainActivity().getSchoolObjects());
         //adapter.notifyDataSetChanged();
     }
 
@@ -113,6 +117,14 @@ public class ResultListFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Log.e(TAG, "onItemClick: item was clicked");
+    }
+
+    @Override
+    public void receiveUpdate() {
+        Log.e(TAG, "receiveUpdate: UPDATE RECEIVED" );
+        schoolObjects = dataHandlerSingleton.getSchoolObjects();
+        adapter.addAll(schoolObjects);
+
     }
 
     public class SchoolAdapter extends ArrayAdapter<SchoolObject> {
